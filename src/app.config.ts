@@ -23,10 +23,11 @@ export default config({
 
     app.use((req, res, next) => {
       res.header("Access-Control-Allow-Origin", "*"); // 모든 도메인에서 접근을 허용하도록 설정 (보안상 문제가 있을 수 있으므로 실제 운영 환경에서는 조심히 설정)
-      //   res.header(
-      //     "Access-Control-Allow-Headers",
-      //     "Origin, X-Requested-With, Content-Type, Accept"
-      //   );
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+      );
+      res.header("Access-Control-Expose-Headers", "Custom-Header");
       next();
     });
 
