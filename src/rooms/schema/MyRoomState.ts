@@ -4,6 +4,7 @@ export class Player extends Schema {
   @type("number") x: number;
   @type("number") y: number;
   @type("string") moveState: string;
+  @type("boolean") isRunOn: boolean;
 }
 
 export class MyRoomState extends Schema {

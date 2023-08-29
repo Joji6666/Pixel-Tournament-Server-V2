@@ -16,6 +16,12 @@ class MyRoom extends core_1.Room {
             const player = this.state.players.get(client.sessionId);
             const velocity = 2;
             const idleValue = 0;
+            if (input.shiftDown && !input.shiftUp) {
+                player.isRunOn = true;
+            }
+            if (!input.shiftDown && input.shiftUp) {
+                player.isRunOn = false;
+            }
             if (input.leftUp) {
                 player.x -= idleValue;
                 player.moveState = "left_idle";

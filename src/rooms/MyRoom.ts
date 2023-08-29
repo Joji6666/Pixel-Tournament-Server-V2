@@ -13,6 +13,14 @@ export class MyRoom extends Room<MyRoomState> {
       const velocity = 2;
       const idleValue = 0;
 
+      if (input.shiftDown && !input.shiftUp) {
+        player.isRunOn = true;
+      }
+
+      if (!input.shiftDown && input.shiftUp) {
+        player.isRunOn = false;
+      }
+
       if (input.leftUp) {
         player.x -= idleValue;
         player.moveState = "left_idle";
@@ -34,18 +42,38 @@ export class MyRoom extends Room<MyRoomState> {
       }
 
       if (input.left) {
-        player.x -= velocity;
+        if (player.isRunOn) {
+          player.x -= velocity + 2;
+        } else {
+          player.x -= velocity;
+        }
+
         player.moveState = "left_walk";
       } else if (input.right) {
-        player.x += velocity;
+        if (player.isRunOn) {
+          player.x += velocity + 2;
+        } else {
+          player.x += velocity;
+        }
+
         player.moveState = "right_walk";
       }
 
       if (input.up) {
-        player.y -= velocity;
+        if (player.isRunOn) {
+          player.y -= velocity + 2;
+        } else {
+          player.y -= velocity;
+        }
+
         player.moveState = "back_walk";
       } else if (input.down) {
-        player.y += velocity;
+        if (player.isRunOn) {
+          player.y += velocity + 2;
+        } else {
+          player.y += velocity;
+        }
+
         player.moveState = "front_walk";
       }
     });
