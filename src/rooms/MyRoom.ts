@@ -2,11 +2,12 @@ import { Room, Client } from "@colyseus/core";
 import { MyRoomState, Player } from "./schema/MyRoomState";
 
 export class MyRoom extends Room<MyRoomState> {
-  maxClients = 4;
+  maxClients = 6;
 
   onCreate(options: any) {
     this.setState(new MyRoomState());
     console.log("room create");
+
     this.onMessage("input", (client, input) => {
       // get reference to the player who sent the message
       const player = this.state.players.get(client.sessionId);
@@ -43,17 +44,57 @@ export class MyRoom extends Room<MyRoomState> {
 
       if (input.left) {
         if (player.isRunOn) {
-          player.x -= velocity + 2;
+          if (input.collider && player.moveState === "left_walk") {
+            player.x -= 0;
+          }
+
+          if (input.collider && player.moveState !== "left_walk") {
+            player.x -= velocity + 2;
+          }
+
+          if (!input.collider) {
+            player.x -= velocity + 2;
+          }
         } else {
-          player.x -= velocity;
+          if (input.collider && player.moveState === "left_walk") {
+            player.x -= 0;
+          }
+
+          if (input.collider && player.moveState !== "left_walk") {
+            player.x -= velocity;
+          }
+
+          if (!input.collider) {
+            player.x -= velocity;
+          }
         }
 
         player.moveState = "left_walk";
       } else if (input.right) {
         if (player.isRunOn) {
-          player.x += velocity + 2;
+          if (input.collider && player.moveState === "right_walk") {
+            player.x -= 0;
+          }
+
+          if (input.collider && player.moveState !== "right_walk") {
+            player.x += velocity;
+          }
+
+          if (!input.collider) {
+            player.x += velocity + 2;
+          }
         } else {
-          player.x += velocity;
+          if (input.collider && player.moveState === "right_walk") {
+            player.x -= 0;
+          }
+
+          if (input.collider && player.moveState !== "right_walk") {
+            player.x += velocity;
+          }
+
+          if (!input.collider) {
+            player.x += velocity;
+          }
         }
 
         player.moveState = "right_walk";
@@ -61,17 +102,54 @@ export class MyRoom extends Room<MyRoomState> {
 
       if (input.up) {
         if (player.isRunOn) {
-          player.y -= velocity + 2;
+          if (input.collider && player.moveState === "back_walk") {
+            if (input.left || input.right) {
+              player.y -= velocity + 2;
+            } else {
+              player.y -= 0;
+            }
+          }
+          if (!input.collider) {
+            player.y -= velocity + 2;
+          }
         } else {
-          player.y -= velocity;
+          if (input.collider && player.moveState === "back_walk") {
+            if (input.left || input.right) {
+              player.y -= velocity;
+            } else {
+              player.y -= 0;
+            }
+          }
+
+          if (!input.collider) {
+            player.y -= velocity;
+          }
         }
 
         player.moveState = "back_walk";
       } else if (input.down) {
         if (player.isRunOn) {
-          player.y += velocity + 2;
+          if (input.collider && player.moveState === "front_walk") {
+            if (input.left || input.right) {
+              player.y += velocity + 2;
+            } else {
+              player.y -= 0;
+            }
+          }
+          if (!input.collider) {
+            player.y += velocity + 2;
+          }
         } else {
-          player.y += velocity;
+          if (input.collider && player.moveState === "front_walk") {
+            if (input.left || input.right) {
+              player.y += velocity;
+            } else {
+              player.y -= 0;
+            }
+          }
+          if (!input.collider) {
+            player.y += velocity;
+          }
         }
 
         player.moveState = "front_walk";
