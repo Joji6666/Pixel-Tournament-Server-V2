@@ -48,20 +48,12 @@ export class MyRoom extends Room<MyRoomState> {
             player.x -= 0;
           }
 
-          if (input.collider && player.moveState !== "left_walk") {
-            player.x -= velocity + 2;
-          }
-
           if (!input.collider) {
             player.x -= velocity + 2;
           }
         } else {
           if (input.collider && player.moveState === "left_walk") {
             player.x -= 0;
-          }
-
-          if (input.collider && player.moveState !== "left_walk") {
-            player.x -= velocity;
           }
 
           if (!input.collider) {
@@ -76,20 +68,12 @@ export class MyRoom extends Room<MyRoomState> {
             player.x -= 0;
           }
 
-          if (input.collider && player.moveState !== "right_walk") {
-            player.x += velocity;
-          }
-
           if (!input.collider) {
             player.x += velocity + 2;
           }
         } else {
           if (input.collider && player.moveState === "right_walk") {
             player.x -= 0;
-          }
-
-          if (input.collider && player.moveState !== "right_walk") {
-            player.x += velocity;
           }
 
           if (!input.collider) {
@@ -103,22 +87,14 @@ export class MyRoom extends Room<MyRoomState> {
       if (input.up) {
         if (player.isRunOn) {
           if (input.collider && player.moveState === "back_walk") {
-            if (input.left || input.right) {
-              player.y -= velocity + 2;
-            } else {
-              player.y -= 0;
-            }
+            player.y -= 0;
           }
           if (!input.collider) {
             player.y -= velocity + 2;
           }
         } else {
           if (input.collider && player.moveState === "back_walk") {
-            if (input.left || input.right) {
-              player.y -= velocity;
-            } else {
-              player.y -= 0;
-            }
+            player.y -= 0;
           }
 
           if (!input.collider) {
@@ -130,22 +106,14 @@ export class MyRoom extends Room<MyRoomState> {
       } else if (input.down) {
         if (player.isRunOn) {
           if (input.collider && player.moveState === "front_walk") {
-            if (input.left || input.right) {
-              player.y += velocity + 2;
-            } else {
-              player.y -= 0;
-            }
+            player.y -= 0;
           }
           if (!input.collider) {
             player.y += velocity + 2;
           }
         } else {
           if (input.collider && player.moveState === "front_walk") {
-            if (input.left || input.right) {
-              player.y += velocity;
-            } else {
-              player.y -= 0;
-            }
+            player.y -= 0;
           }
           if (!input.collider) {
             player.y += velocity;
