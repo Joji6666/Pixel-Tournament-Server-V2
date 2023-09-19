@@ -42,40 +42,115 @@ export class MyRoom extends Room<MyRoomState> {
         player.moveState = "front_idle";
       }
 
+      if (input.collider) {
+        if (input.left && input.up) {
+          if (input.colliderSide === "right") {
+            player.x -= 0;
+            player.y -= velocity;
+          }
+          if (input.colliderSide === "front") {
+            player.x -= 0;
+            player.y -= velocity;
+          } else {
+            player.x -= velocity;
+            player.y -= 0;
+          }
+        }
+        if (input.right && input.up) {
+          if (input.colliderSide === "left") {
+            player.x += 0;
+            player.y -= velocity;
+          }
+          if (input.colliderSide === "front") {
+            player.x += 0;
+            player.y -= velocity;
+          } else {
+            player.x += velocity;
+            player.y -= 0;
+          }
+        }
+        if (input.left && input.down) {
+          if (input.colliderSide === "right") {
+            player.x -= 0;
+            player.y += velocity;
+          }
+          if (input.colliderSide === "back") {
+            player.x -= 0;
+            player.y += velocity;
+          } else {
+            player.x -= velocity;
+            player.y -= 0;
+          }
+        }
+        if (input.right && input.down) {
+          if (input.colliderSide === "left") {
+            player.x += 0;
+            player.y += velocity;
+          }
+          if (input.colliderSide === "back") {
+            player.x -= 0;
+            player.y += velocity;
+          } else {
+            player.x += velocity;
+            player.y -= 0;
+          }
+        }
+
+        if (input.left && !input.up && !input.down) {
+          if (input.beforePlayerMoveState !== ("left_move" || "left_idle")) {
+            console.log(input.beforePlayerMoveState);
+            console.log(input);
+            player.x -= velocity;
+          }
+        }
+        if (input.right && !input.up && !input.down) {
+          if (input.beforePlayerMoveState !== ("right_move" || "right_idle")) {
+            player.x += velocity;
+          }
+        }
+        if (input.up && !input.left && !input.right) {
+          if (input.beforePlayerMoveState !== ("back_move" || "back_idle")) {
+            player.y -= velocity;
+          }
+
+          if (
+            input.colliderSide === ("left" || "right") &&
+            input.colliderDoneSide !== "back"
+          ) {
+            player.y -= velocity;
+          }
+        }
+        if (input.down && !input.left && !input.right) {
+          if (input.beforePlayerMoveState !== ("front_move" || "front_idle")) {
+            player.y += velocity;
+          }
+
+          if (
+            input.colliderSide === ("left" || "right") &&
+            input.colliderDoneSide !== "front"
+          ) {
+            player.y += velocity;
+          }
+        }
+      }
+
       if (input.left) {
         if (player.isRunOn) {
-          if (input.collider && player.moveState === "left_walk") {
-            player.x -= 0;
-          }
-
-          if (!input.collider) {
-            player.x -= velocity + 2;
-          }
+          player.x -= velocity + 2;
         } else {
-          if (input.collider && player.moveState === "left_walk") {
-            player.x -= 0;
-          }
-
           if (!input.collider) {
+            console.log(input.collider);
+            console.log("work??");
             player.x -= velocity;
           }
         }
 
         player.moveState = "left_walk";
-      } else if (input.right) {
+      }
+      if (input.right) {
         if (player.isRunOn) {
-          if (input.collider && player.moveState === "right_walk") {
-            player.x -= 0;
-          }
-
-          if (!input.collider) {
-            player.x += velocity + 2;
-          }
+          player.x += velocity + 2;
         } else {
-          if (input.collider && player.moveState === "right_walk") {
-            player.x -= 0;
-          }
-
           if (!input.collider) {
             player.x += velocity;
           }
@@ -86,35 +161,19 @@ export class MyRoom extends Room<MyRoomState> {
 
       if (input.up) {
         if (player.isRunOn) {
-          if (input.collider && player.moveState === "back_walk") {
-            player.y -= 0;
-          }
-          if (!input.collider) {
-            player.y -= velocity + 2;
-          }
+          player.y -= velocity + 2;
         } else {
-          if (input.collider && player.moveState === "back_walk") {
-            player.y -= 0;
-          }
-
           if (!input.collider) {
             player.y -= velocity;
           }
         }
 
         player.moveState = "back_walk";
-      } else if (input.down) {
+      }
+      if (input.down) {
         if (player.isRunOn) {
-          if (input.collider && player.moveState === "front_walk") {
-            player.y -= 0;
-          }
-          if (!input.collider) {
-            player.y += velocity + 2;
-          }
+          player.y += velocity + 2;
         } else {
-          if (input.collider && player.moveState === "front_walk") {
-            player.y -= 0;
-          }
           if (!input.collider) {
             player.y += velocity;
           }
