@@ -8,6 +8,13 @@ export class MyRoom extends Room<MyRoomState> {
     this.setState(new MyRoomState());
     console.log("room create");
 
+    this.onMessage("weapon", (client, weapon) => {
+      const player = this.state.players.get(client.sessionId);
+      if (weapon) {
+        player.playerStatusWeapon = weapon;
+      }
+    });
+
     this.onMessage("input", (client, input) => {
       // get reference to the player who sent the message
       const player = this.state.players.get(client.sessionId);
@@ -57,7 +64,6 @@ export class MyRoom extends Room<MyRoomState> {
             input.colliderSide !== "right" &&
             input.colliderSide !== "front"
           ) {
-            console.log("left up work");
             player.x -= velocity;
             player.y -= 0;
           }
@@ -73,7 +79,6 @@ export class MyRoom extends Room<MyRoomState> {
           }
 
           if (input.colliderSide !== "left" && input.colliderSide !== "front") {
-            console.log("right up work");
             player.x += velocity;
             player.y -= 0;
           }
@@ -89,8 +94,6 @@ export class MyRoom extends Room<MyRoomState> {
           }
 
           if (input.colliderSide !== "right" && input.colliderSide !== "back") {
-            console.log(input.colliderSide, "diagonal left work3");
-            console.log("diagonal left work");
             player.x -= velocity;
             player.y -= 0;
           }
@@ -106,7 +109,6 @@ export class MyRoom extends Room<MyRoomState> {
           }
 
           if (input.colliderSide !== "left" && input.colliderSide !== "back") {
-            console.log("diagonal right work3");
             player.x += velocity;
             player.y -= 0;
           }
@@ -114,13 +116,11 @@ export class MyRoom extends Room<MyRoomState> {
 
         if (input.left && !input.up && !input.down) {
           if (input.colliderSide !== "right") {
-            console.log("solo right work");
             player.x -= velocity;
           }
         }
         if (input.right && !input.up && !input.down) {
           if (input.colliderSide !== "left") {
-            console.log("solo left work");
             player.x += velocity;
           }
         }
@@ -137,7 +137,6 @@ export class MyRoom extends Room<MyRoomState> {
       }
 
       if (!input.collider) {
-        console.log(input.collider, "no collider work");
         if (input.left) {
           if (player.isRunOn) {
             console.log("is run ok?");
