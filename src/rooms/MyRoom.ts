@@ -11,15 +11,20 @@ export class MyRoom extends Room<MyRoomState> {
     this.onMessage("weapon", (client, weapon) => {
       const player = this.state.players.get(client.sessionId);
       if (weapon) {
-        player.playerStatusWeapon = weapon;
+        player.playerStatusWeapon = weapon.weapon;
+        player.playerStatusWeaponIsDraw = weapon.isWeaponDraw;
       }
     });
 
     this.onMessage("input", (client, input) => {
       // get reference to the player who sent the message
       const player = this.state.players.get(client.sessionId);
-      const velocity = 2;
+      let velocity = 2;
       const idleValue = 0;
+
+      if (player.playerStatusWeapon) {
+        velocity = 1.5;
+      }
 
       if (input.shiftDown && !input.shiftUp) {
         player.isRunOn = true;
@@ -155,7 +160,6 @@ export class MyRoom extends Room<MyRoomState> {
             player.x += velocity + 2;
           } else {
             if (!input.collider) {
-              console.log("solo work");
               player.x += velocity;
             }
           }

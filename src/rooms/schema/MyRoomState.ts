@@ -6,6 +6,7 @@ export class Player extends Schema {
   @type("string") moveState: string;
   @type("boolean") isRunOn: boolean;
   @type("string") playerStatusWeapon: string;
+  @type("boolean") playerStatusWeaponIsDraw: boolean;
 }
 
 export class MyRoomState extends Schema {

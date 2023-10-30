@@ -23,6 +23,9 @@ __decorate([
 __decorate([
     (0, schema_1.type)("boolean")
 ], Player.prototype, "isRunOn", void 0);
+__decorate([
+    (0, schema_1.type)("string")
+], Player.prototype, "playerStatusWeapon", void 0);
 class MyRoomState extends schema_1.Schema {
     constructor() {
         super(...arguments);
