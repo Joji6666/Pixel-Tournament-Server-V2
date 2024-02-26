@@ -9,10 +9,12 @@ export class MyRoom extends Room<MyRoomState> {
     console.log("room create");
 
     this.onMessage("weapon", (client, weapon) => {
+      console.log(weapon, "weapon");
       const player = this.state.players.get(client.sessionId);
       if (weapon) {
         player.playerStatusWeapon = weapon.weapon;
         player.playerStatusWeaponIsDraw = weapon.isWeaponDraw;
+        player.playerStatusWeaponIsAttack = weapon.isAttack;
       }
     });
 
